@@ -1,28 +1,41 @@
-1) MySQL 설치
+## 1) MySQL 설치
+~~~
 https://jjeongil.tistory.com/1292
-
-2) 패키지 레포지토리 활성화
+~~~
+  
+## 2) 패키지 레포지토리 활성화
+~~~
 add-apt-repository cloud-archive:train
-
-3) NTP
+~~~
+  
+## 3) NTP
+~~~
 https://docs.openstack.org/install-guide/environment-ntp-controller.html
-
-4) DB 설정
+~~~
+  
+## 4) DB 설정
+~~~
 https://docs.openstack.org/install-guide/environment-sql-database-ubuntu.html
 
 !!! 꼭 db bind address 확인해야 한다. > 오픈스택 모듈에서 다 붙어야하니까
 /etc/mysql/mysql.conf.d/mysqld.cnf > bind-address = 127.0.0.1
-
-5) MQ 설정
+~~~
+  
+## 5) MQ 설정
+~~~
 https://docs.openstack.org/install-guide/environment-messaging-ubuntu.html
 
 rabbitmqctl add_user openstack openstack.123
 rabbitmqctl set_permissions openstack ".*" ".*" ".*"
-
-6) Memcached 설정
+~~~
+  
+## 6) Memcached 설정
+~~~
 https://docs.openstack.org/install-guide/environment-memcached-ubuntu.html
-
-7) Keystone 설치
+~~~
+  
+## 7) Keystone 설치
+~~~
 https://docs.openstack.org/keystone/train/install/keystone-install-ubuntu.html
 
 GRANT ALL PRIVILEGES ON keystone.* TO 'keystone'@'localhost' \
@@ -35,14 +48,20 @@ keystone-manage bootstrap --bootstrap-password admin.123 \
   --bootstrap-internal-url http://controller:5000/v3/ \
   --bootstrap-public-url http://controller:5000/v3/ \
   --bootstrap-region-id RegionOne
-
-8) 서비스 프로젝트 추가
+~~~
+  
+## 8) 서비스 프로젝트 추가
+~~~
 openstack project create --domain default --description "Service Project" service
-
-9) Glance 설치
+~~~
+  
+## 9) Glance 설치
+~~~
 https://docs.openstack.org/glance/train/install/install-ubuntu.html
-
-10) Placement 설치
+~~~
+  
+## 10) Placement 설치
+~~~
 https://docs.openstack.org/placement/train/install/install-ubuntu.html
 
 GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'localhost' \
@@ -50,9 +69,10 @@ GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'localhost' \
 
 GRANT ALL PRIVILEGES ON placement.* TO 'placement'@'%' \
   IDENTIFIED BY 'placement.123';
-
-
-11) Controller - nova 설치
+~~~
+  
+## 11) Controller - nova 설치
+~~~
 https://docs.openstack.org/nova/train/install/controller-install-ubuntu.html
 
 GRANT ALL PRIVILEGES ON nova_api.* TO 'nova'@'localhost' \
@@ -69,9 +89,10 @@ GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'localhost' \
   IDENTIFIED BY 'nova.123';
 GRANT ALL PRIVILEGES ON nova_cell0.* TO 'nova'@'%' \
   IDENTIFIED BY 'nova.123';
-
-
-12) Neutron 설치 - controller
+~~~
+  
+## 12) Neutron 설치 - controller
+~~~
 https://docs.openstack.org/neutron/train/install/controller-install-ubuntu.html
 
 GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
@@ -79,29 +100,35 @@ GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'localhost' \
 
 GRANT ALL PRIVILEGES ON neutron.* TO 'neutron'@'%' \
   IDENTIFIED BY 'neutron.123';
-
-12-1) Provider network 로 설치
+~~~
+  
+### 12-1) Provider network 로 설치
+~~~
 https://docs.openstack.org/neutron/train/install/controller-install-option1-ubuntu.html
-
-12-2) Metadata 설정
+~~~
+  
+### 12-2) Metadata 설정
+~~~
 metadata_proxy_shared_secret = metadata.123
-
-
-13) Launch an instance
+~~~
+  
+## 13) Launch an instance
+~~~
 https://docs.openstack.org/install-guide/launch-instance.html#create-m1-nano-flavor
-
-13-1) Flavor 추가 (VM 시스템 리소스 정보)
+~~~
+  
+### 13-1) Flavor 추가 (VM 시스템 리소스 정보)
+~~~
 openstack flavor create --id 0 --vcpus 4 --ram 4096 --disk 20 4c_4g_20g
-
-13-2) Key pair 추가
-
-13-3) Security group rules 추가
-
-
-
-14) Network 추가 (provider)
+~~~
+  
+### 13-2) Key pair 추가
+  
+### 13-3) Security group rules 추가
+  
+## 14) Network 추가 (provider)
+~~~
 https://docs.openstack.org/install-guide/launch-instance-networks-provider.html
-
 
 openstack subnet create --network provider \
   --allocation-pool start=START_IP_ADDRESS,end=END_IP_ADDRESS \
@@ -110,24 +137,23 @@ openstack subnet create --network provider \
 
 openstack subnet create --network provider \
 --allocation-pool start=100.100.100.2,end=100.100.100.254 \
---dns-nameserver 192.168.1.29 --gateway 100.100.100.1 \
+--dns-nameserver DNS_RESOLVER --gateway 100.100.100.1 \
 --subnet-range 100.100.100.0/24 provider
-
-
-
-15) Compute 노드에 nova-compute 설치
+~~~
+  
+## 15) Compute 노드에 nova-compute 설치
+~~~
 https://docs.openstack.org/nova/train/install/compute-install-rdo.html
-(7.33 장비는 Redhat7 > train)
+(B 장비는 Redhat7 > train)
 
 * Compute 노드에 neutron 설치
 https://docs.openstack.org/neutron/train/install/compute-install-rdo.html
-
 (설정할 섹션 또는 필드가 없으면 추가하면 된다.)
-
-
-16) Compute 에서 Controller 로 연동
+~~~
+  
+## 16) Compute 에서 Controller 로 연동
+~~~
 systemctl start libvirtd.service openstack-nova-compute.service
-
 
 !!! nova.conf 에 neutron 설정 추가해야한다.
 auth_url = http://controller:5000
@@ -138,10 +164,10 @@ region_name = RegionOne
 project_name = service
 username = neutron
 password = neutron.123
-
-
-
-17) Controller 에서 확인
+~~~
+  
+## 17) Controller 에서 확인
+~~~
 https://docs.openstack.org/nova/train/install/compute-install-rdo.html
 
 root@MEDIDA-OPS-CON:~# openstack compute service list --service nova-compute
@@ -158,9 +184,12 @@ Getting computes from cell 'cell1': c3aa140e-0eac-4168-9673-69b03594f1b4
 Checking host mapping for compute host 'MEDIA-DEV33': 72f35c95-319c-4810-926a-809cb1702f0a
 Creating host mapping for compute host 'MEDIA-DEV33': 72f35c95-319c-4810-926a-809cb1702f0a
 Found 1 unmapped computes in cell: c3aa140e-0eac-4168-9673-69b03594f1b4
+~~~
+  
+## 18) Image create
+~~~
+CentOS cloud image : http://cloud.centos.org/centos/7/images/
 
-
-18) Image create
 https://docs.openstack.org/newton/ko_KR/install-guide-rdo/glance-verify.html
 
 openstack image create "CentOS-7-x86_64-GenericCloud.qcow2" \
@@ -172,16 +201,16 @@ openstack image create "CentOS-7-x86_64-GenericCloud.qcow2c" \
   --file CentOS-7-x86_64-GenericCloud.qcow2c \
   --disk-format qcow2 --container-format bare \
   --public
-
-
-19) Server create
+~~~
+  
+## 19) Server create
+~~~
 openstack server create \
  --flavor 4c_4g_20g \
  --image CentOS-7-x86_64-GenericCloud.qcow2 \
  --network provider \
  --security-group default --key-name mykey \
  test1
-
 
 openstack server create \
  --flavor 4c_4g_20g \
@@ -190,19 +219,23 @@ openstack server create \
  --security-group default --key-name mykey \
  test1
 
-
- --user-data AICC-PGW.sh
-
-
-
-20) Dashboard (horizon) 설치
+ --user-data script.sh
+~~~
+  
+## 20) Dashboard (horizon) 설치
+~~~
 https://docs.openstack.org/horizon/train/install/install-ubuntu.html
-
-
-
-
-
-21) 생성된 VM 인스턴스로 접속
-
+~~~
+  
+## 21) 생성된 VM 인스턴스로 접속
+~~~
 !!! 서브넷이 100.100.100.0/24 대역이여서 외부 접속이 안된다... 어케함?
+~~~
+
+## 22) Local Repository
+~~~
+https://jjeongil.tistory.com/1292
+~~~
+  
+
 
