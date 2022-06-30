@@ -1,2 +1,2 @@
-# -_-
-오픈스택_정리
+# Openstack note
+
