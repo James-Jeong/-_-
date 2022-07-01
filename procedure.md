@@ -186,12 +186,21 @@ Creating host mapping for compute host 'MEDIA-DEV33': 72f35c95-319c-4810-926a-80
 Found 1 unmapped computes in cell: c3aa140e-0eac-4168-9673-69b03594f1b4
 ~~~
   
-## 18) Image create
+## 18) Image
 ~~~
-CentOS cloud image : http://cloud.centos.org/centos/7/images/
-
 https://docs.openstack.org/newton/ko_KR/install-guide-rdo/glance-verify.html
-
+~~~
+  
+### 18-1) Download image & set root password
+~~~
+1. CentOS cloud image : http://cloud.centos.org/centos/7/images/
+2. Set root password
+- Install libguestfs-tools (ubuntu : apt install libguestfs-tools)
+- virt-customize -a [Image-file-name] --root-password password:[Custom-Password]
+~~~
+  
+### 18-2) Create image
+~~~
 openstack image create "CentOS-7-x86_64-GenericCloud.qcow2" \
   --file CentOS-7-x86_64-GenericCloud.qcow2 \
   --disk-format qcow2 --container-format bare \
@@ -203,15 +212,8 @@ openstack image create "CentOS-7-x86_64-GenericCloud.qcow2c" \
   --public
 ~~~
   
-## 19) Server create
+## 19) Server
 ~~~
-openstack server create \
- --flavor 4c_4g_20g \
- --image CentOS-7-x86_64-GenericCloud.qcow2 \
- --network provider \
- --security-group default --key-name mykey \
- test1
-
 openstack server create \
  --flavor 4c_4g_20g \
  --image CentOS-7-x86_64-GenericCloud.qcow2c \
@@ -229,7 +231,8 @@ https://docs.openstack.org/horizon/train/install/install-ubuntu.html
   
 ## 21) 생성된 VM 인스턴스로 접속
 ~~~
-!!! 서브넷이 100.100.100.0/24 대역이여서 외부 접속이 안된다... 어케함?
+virsh list
+virsh instance [INSTANCE-NAME]
 ~~~
 
 ## 22) Local Repository
