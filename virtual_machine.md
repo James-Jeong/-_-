@@ -19,3 +19,9 @@ https://jaeho.tistory.com/entry/cloud-image-root-password-설정
 > virt-customize -a CentOS-7-x86_64-GenericCloud.qcow2c --install wget
 > virt-customize -a CentOS-7-x86_64-GenericCloud.qcow2c --install java-1.8.0-openjdk
 ~~~
+
+## * Copy local path to vm (remote path)
+~~~
+virt-customize -a CentOS-7-x86_64-GenericCloud.qcow2c --copy-in /home/sysadm/test/:/root/
+~~~
+  
