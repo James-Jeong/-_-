@@ -1,17 +1,18 @@
 # Openstack note
   
 ## System
-<img width="757" alt="image" src="https://user-images.githubusercontent.com/37236920/183575911-f9243af7-9a2e-4882-a3ec-8d2693cb4df8.png">
+![스크린샷 2022-08-29 오전 9 11 31](https://user-images.githubusercontent.com/37236920/187100766-5c2b6de2-7405-4a57-966e-4538538a880b.png)
   
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/37236920/183575922-a5a784f2-80d1-4c8d-a869-a96d3a9ba666.png">
+![스크린샷 2022-08-29 오전 9 11 51](https://user-images.githubusercontent.com/37236920/187100775-9ee26002-2a54-4360-9ad1-93aa4d5855d3.png)
   
-<img width="688" alt="스크린샷 2022-07-15 오후 9 32 06" src="https://user-images.githubusercontent.com/37236920/179223613-db164bac-b85d-42fe-bfc7-6ee6158715a5.png">
+![스크린샷 2022-08-29 오전 9 12 33](https://user-images.githubusercontent.com/37236920/187100808-069deaac-b23c-4639-9b1a-355ab46dd1e1.png)
   
-<img width="778" alt="스크린샷 2022-07-15 오후 9 22 56" src="https://user-images.githubusercontent.com/37236920/179222127-12875e79-9909-45d4-97b6-eb0efe703f82.png">
+![스크린샷 2022-08-29 오전 9 13 15](https://user-images.githubusercontent.com/37236920/187100840-440afc15-9368-451e-8f9d-3dbe3de03d29.png)
   
 ~~~
+
 A : Openstack Controller node (Ubuntu train)
-B : Openstack Compute node (Redhat7 train) + Jenkins + Yum-repository
+B : Openstack Compute node (Redhat7 train) + Jenkins + Local-Repository(createrepo)
 ~~~
   
 ## Flow
